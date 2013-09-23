@@ -61,6 +61,11 @@ class AutoSlugField(SlugField):
         self.allow_duplicates = kwargs.pop('allow_duplicates', False)
         super(AutoSlugField, self).__init__(*args, **kwargs)
 
+    def deconstruct(self):
+        name, path, args, kwargs = super(AutoSlugField, self).deconstruct()
+        kwargs['populate_from'] = self._populate_from
+        return name, path, args, kwargs
+
     def _slug_strip(self, value):
         """
         Cleans up a slug by removing slug separator characters that occur at
